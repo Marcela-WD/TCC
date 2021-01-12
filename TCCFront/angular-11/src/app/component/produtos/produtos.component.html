@@ -1,0 +1,70 @@
+<div class="container">
+
+  <div class="row">
+    <div *ngIf="produtoSelected.id != 0" class="col-sm-6">
+      <app-titulo [titulo]="(produtoSelected.id === -1 ? 'Novo Produto': 'Código: ' + produtoSelected.id)">
+        <button class="btn btn-rounded btn-outline-danger" (click)="voltar()">Voltar</button>
+      </app-titulo>
+    
+      <form [formGroup]="produtoForm" (submit)="onSubmit()">
+        <div class="form-group">
+          <label>Descrição</label>
+          <input type="text" formControlName="descricao" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Modo de Preparo ID</label>
+          <input type="text" formControlName="modoPreparoId" class="form-control">
+        </div>
+        <div class="row form-group">
+          <button class="btn btn-rounded btn-outline-success" [disabled]="!produtoForm.valid">Salva</button>
+        </div>
+      </form>
+    </div>
+
+    <div [ngClass]="{'col-sm-6': produtoSelected.id != 0, 'col-sm-12': produtoSelected.id ==  0}">
+      <app-titulo [titulo]="tituloProduto">
+        <button class="btn btn-outline-primary btn-rounded" (click)="novoProduto()">Cadastrar Produto</button>
+      </app-titulo>
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Visualizar</th>
+            <th scope="col">#</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Modo Preparo ID</th>
+            <th scope="col">Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let produto of produtos">
+            <td>
+              <button (click)="produtoSelect(produto)"
+                class="text-dark btn btn-sm btn-outline-warning">Descrição</button>
+            </td>
+            <th scope="row">{{produto.id}}</th>
+            <td>{{produto.descricao}}</td>
+            <td>{{produto.modoPreparoId}}</td>
+            <td>
+              <div class="btn-group">
+                <!-- <button (click)="openModal(template)" class="text-dark btn btn-sm btn-outline-primary">Proddutos</button> -->
+                <button (click)="excluirProduto(produto)"
+                  class="text-dark btn btn-sm btn-outline-danger">Excluir</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- <ng-template #template>
+      <div class="modal-boby">
+        <app-produtos></app-produtos>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          FECHAR
+        </button>
+      </div>
+    </ng-template> -->
